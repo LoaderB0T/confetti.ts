@@ -20,20 +20,25 @@ export abstract class Particle {
     this._gravity = options.gravity ?? 0.05;
   }
 
-  protected abstract drawInternal(timeDelta: number): void;
+  protected abstract drawInternal(normalizer: number): void;
+
+  private getNormalizer(timeDelta: number): number {
+    return timeDelta / 10;
+  }
 
   // @internal
   public draw(): void {
+    const timeDelta = Date.now() - this._lastDrawTime;
+    const normalizer = this.getNormalizer(timeDelta);
     if (typeof this._gravity === 'number') {
-      this._velocityY += this._gravity;
+      this._velocityY += normalizer * this._gravity;
     } else {
-      this._velocityX += this._gravity.x;
-      this._velocityY += this._gravity.y;
+      this._velocityX += normalizer * this._gravity.x;
+      this._velocityY += normalizer * this._gravity.y;
     }
     this._x += this._velocityX;
     this._y += this._velocityY;
-    const timeDelta = Date.now() - this._lastDrawTime;
-    this.drawInternal(timeDelta);
+    this.drawInternal(normalizer);
     this._lastDrawTime = Date.now();
   }
 

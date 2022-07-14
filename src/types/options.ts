@@ -6,4 +6,6 @@ export type ParticleOptions = {
   velocityX?: number;
   velocityY?: number;
   gravity?: number | XY;
+  rotationX?: number;
+  rotationY?: number;
 };
