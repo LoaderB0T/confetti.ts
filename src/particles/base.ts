@@ -56,6 +56,21 @@ export abstract class Particle {
       }
       this._x += this._optionsXY.velocityX;
       this._y += this._optionsXY.velocityY;
+    } else if (this._optionsAngle) {
+      this._optionsAngle.velocity += normalizer * this._optionsAngle.acceleration;
+      if (this._optionsAngle.minVelocity && this._optionsAngle.velocity < this._optionsAngle.minVelocity) {
+        this._optionsAngle.velocity = this._optionsAngle.minVelocity;
+      }
+      if (this._optionsAngle.maxVelocity && this._optionsAngle.velocity > this._optionsAngle.maxVelocity) {
+        this._optionsAngle.velocity = this._optionsAngle.maxVelocity;
+      }
+
+      const angle = (this._optionsAngle.angle / 180) * Math.PI;
+
+      const deltaX = Math.cos(angle) * this._optionsAngle.velocity;
+      const deltaY = Math.sin(angle) * this._optionsAngle.velocity;
+      this._x += deltaX;
+      this._y += deltaY;
     }
   }
 
