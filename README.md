@@ -20,8 +20,6 @@ This small package provides some simple particle animations in TypeScript.
 
 ✅ Todo
 
-✅ Add new keyboard layouts and custom characters
-
 ✅ Framework independent
 
 ✅ ESM & CJS exports
