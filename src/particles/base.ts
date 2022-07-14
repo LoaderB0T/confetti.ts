@@ -14,6 +14,7 @@ export abstract class Particle {
   private readonly _rotationX: number = 0;
   private readonly _rotationY: number = 0;
   private readonly _rotationZ: number = 0;
+  private readonly _lifeTime: number;
   protected readonly _optionsXY?: ParticleXYOptionsFull;
   protected readonly _optionsAngle?: ParticleAngleOptionsFull;
 
@@ -23,6 +24,7 @@ export abstract class Particle {
     this._rotationX = options.rotationX ?? 0;
     this._rotationY = options.rotationY ?? 0;
     this._rotationZ = options.rotationZ ?? 0;
+    this._lifeTime = options.lifeTime ?? 5000;
     this._spawnTime = Date.now();
     this._lastDrawTime = Date.now();
     if (options.movement === 'xy') {
@@ -71,10 +73,10 @@ export abstract class Particle {
       this._y += this._optionsXY.velocityY;
     } else if (this._optionsAngle) {
       this._optionsAngle.velocity += normalizer * this._optionsAngle.acceleration;
-      if (this._optionsAngle.minVelocity && this._optionsAngle.velocity < this._optionsAngle.minVelocity) {
+      if (this._optionsAngle.minVelocity !== undefined && this._optionsAngle.velocity < this._optionsAngle.minVelocity) {
         this._optionsAngle.velocity = this._optionsAngle.minVelocity;
       }
-      if (this._optionsAngle.maxVelocity && this._optionsAngle.velocity > this._optionsAngle.maxVelocity) {
+      if (this._optionsAngle.maxVelocity !== undefined && this._optionsAngle.velocity > this._optionsAngle.maxVelocity) {
         this._optionsAngle.velocity = this._optionsAngle.maxVelocity;
       }
 
@@ -97,6 +99,6 @@ export abstract class Particle {
   }
 
   public get tooOld(): boolean {
-    return Date.now() - this._spawnTime > 5000;
+    return Date.now() - this._spawnTime > this._lifeTime;
   }
 }
