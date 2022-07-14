@@ -1,8 +1,6 @@
-import { Confetti } from '../../src/confetti.js';
 import { randomStub, resetRandomStub } from '../random-stub.js';
 
 describe('', () => {
-  let confetti: Confetti;
   let originalRandom: typeof Math.random;
   beforeEach(() => {
     originalRandom = Math.random;
