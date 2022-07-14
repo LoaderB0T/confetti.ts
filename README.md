@@ -18,7 +18,11 @@ This small package provides some simple particle animations in TypeScript.
 
 ## Features 🔥
 
-✅ Todo
+✅ Spawn particles on your website
+
+✅ Control the size, color, rotation, velocity and acceleration of the particles
+
+✅ Extendable particle shapes
 
 ✅ Framework independent
 
