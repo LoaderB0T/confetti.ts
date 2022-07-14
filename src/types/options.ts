@@ -5,6 +5,7 @@ export type ParticleOptions = {
   y: number;
   rotationX?: number;
   rotationY?: number;
+  rotationZ?: number;
 } & (ParticleXYOptions | ParticleAngleOptions | ParticleStaticOptions);
 
 export type ParticleXYOptions = {

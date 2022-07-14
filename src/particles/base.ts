@@ -1,16 +1,28 @@
 import { ParticleAngleOptionsFull, ParticleOptions, ParticleXYOptionsFull } from '../types/options.js';
+import { bounds } from '../utils/bounds.js';
+import { degreeToRadix } from '../utils/rotation-utils.js';
 
 export abstract class Particle {
   protected _x: number;
   protected _y: number;
+  protected _rX: number = 0;
+  protected _rY: number = 0;
+  protected _rZ: number = 0;
   protected _lastDrawTime: number;
-  protected _spawnTime: number;
-  protected _optionsXY?: ParticleXYOptionsFull;
-  protected _optionsAngle?: ParticleAngleOptionsFull;
+
+  private readonly _spawnTime: number;
+  private readonly _rotationX: number = 0;
+  private readonly _rotationY: number = 0;
+  private readonly _rotationZ: number = 0;
+  protected readonly _optionsXY?: ParticleXYOptionsFull;
+  protected readonly _optionsAngle?: ParticleAngleOptionsFull;
 
   constructor(options: ParticleOptions) {
     this._x = options.x;
     this._y = options.y;
+    this._rotationX = options.rotationX ?? 0;
+    this._rotationY = options.rotationY ?? 0;
+    this._rotationZ = options.rotationZ ?? 0;
     this._spawnTime = Date.now();
     this._lastDrawTime = Date.now();
     if (options.movement === 'xy') {
@@ -41,6 +53,7 @@ export abstract class Particle {
     const timeDelta = Date.now() - this._lastDrawTime;
     const normalizer = this.getNormalizer(timeDelta);
     this.move(normalizer);
+    this.rotate(normalizer);
 
     this.drawInternal(normalizer);
     this._lastDrawTime = Date.now();
@@ -65,13 +78,22 @@ export abstract class Particle {
         this._optionsAngle.velocity = this._optionsAngle.maxVelocity;
       }
 
-      const angle = (this._optionsAngle.angle / 180) * Math.PI;
+      const angle = degreeToRadix(this._optionsAngle.angle);
 
       const deltaX = Math.cos(angle) * this._optionsAngle.velocity;
       const deltaY = Math.sin(angle) * this._optionsAngle.velocity;
       this._x += deltaX;
       this._y += deltaY;
     }
+  }
+
+  private rotate(normalizer: number): void {
+    this._rX += normalizer * this._rotationX;
+    this._rY += normalizer * this._rotationY;
+    this._rZ += normalizer * this._rotationZ;
+    this._rX = bounds(this._rX, 0, 360);
+    this._rY = bounds(this._rY, 0, 360);
+    this._rZ = bounds(this._rZ, 0, 360);
   }
 
   public get tooOld(): boolean {

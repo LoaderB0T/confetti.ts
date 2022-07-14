@@ -1,5 +1,6 @@
 import { Canvas } from '../utils/canvas.js';
 import { Draw } from '../utils/draw.js';
+import { degreeToPercentageAbs } from '../utils/rotation-utils.js';
 import { Particle } from './base.js';
 import { CircleOptions } from './options/circle-options.js';
 
@@ -24,7 +25,15 @@ export class CircleParticle extends Particle {
 
   protected drawInternal(): void {
     Canvas.ctx.beginPath();
-    Canvas.ctx.ellipse(this._x, this._y, this._radius, this._radius, 0, 0, 2 * Math.PI);
+    Canvas.ctx.ellipse(
+      this._x,
+      this._y,
+      this._radius * degreeToPercentageAbs(this._rY),
+      this._radius * degreeToPercentageAbs(this._rX),
+      0,
+      0,
+      2 * Math.PI
+    );
     Canvas.ctx.fillStyle = this._color;
     Canvas.ctx.fill();
     if (this._borderColor) {
