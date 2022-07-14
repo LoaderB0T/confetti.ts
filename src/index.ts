@@ -1,1 +1,2 @@
-export * from './confetti';
+export * from './confetti.js';
+export * from './particles/index.js';
