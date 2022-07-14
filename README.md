@@ -50,7 +50,6 @@ for (let i = 0; i < 5; i++) {
     gravity: 0.1
   });
 }
-
 ```
 
 ## Contributing 🧑🏻‍💻
