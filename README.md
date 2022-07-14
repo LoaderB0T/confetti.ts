@@ -33,11 +33,24 @@ This small package provides some simple particle animations in TypeScript.
 ## Getting Started 🚀
 
 ```typescript
-import { Confetti } from 'confetti.ts';
+import { CircleParticle } from './particles/circle.js';
 
-const confetti = new Confetti();
+CircleParticle.draw({ x: 300, y: 300, radius: 10, color: 'red', movement: 'angle', angle: 90, velocity: -5, acceleration: 0.1 });
 
-// todo
+for (let i = 0; i < 5; i++) {
+  CircleParticle.draw({
+    x: 200,
+    y: 300,
+    radius: 10,
+    color: 'blue',
+    movement: 'xy',
+    velocityX: Math.random() - 0.5,
+    velocityY: -(Math.random() * 2 + 5),
+    rotationY: 4,
+    gravity: 0.1
+  });
+}
+
 ```
 
 ## Contributing 🧑🏻‍💻
