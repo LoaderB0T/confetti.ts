@@ -22,7 +22,7 @@ export class CircleParticle extends Particle {
     Draw.addParticle(particle);
   }
 
-  protected drawInternal(normalizer: number): void {
+  protected drawInternal(): void {
     Canvas.ctx.beginPath();
     Canvas.ctx.ellipse(this._x, this._y, this._radius, this._radius, 0, 0, 2 * Math.PI);
     Canvas.ctx.fillStyle = this._color;

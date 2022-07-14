@@ -1,23 +1,33 @@
-import { ParticleOptions } from '../types/options.js';
-import { XY } from '../types/xy.js';
+import { ParticleAngleOptionsFull, ParticleOptions, ParticleXYOptionsFull } from '../types/options.js';
 
 export abstract class Particle {
   protected _x: number;
   protected _y: number;
   protected _lastDrawTime: number;
   protected _spawnTime: number;
-  protected _velocityX: number;
-  protected _velocityY: number;
-  protected _gravity: number | XY;
+  protected _optionsXY?: ParticleXYOptionsFull;
+  protected _optionsAngle?: ParticleAngleOptionsFull;
 
   constructor(options: ParticleOptions) {
     this._x = options.x;
     this._y = options.y;
     this._spawnTime = Date.now();
     this._lastDrawTime = Date.now();
-    this._velocityX = options.velocityX ?? 0;
-    this._velocityY = options.velocityY ?? 0;
-    this._gravity = options.gravity ?? 0.05;
+    if (options.movement === 'xy') {
+      this._optionsXY = {
+        velocityX: options.velocityX ?? 0,
+        velocityY: options.velocityY ?? 0,
+        gravity: options.gravity ?? 0.05
+      };
+    } else if (options.movement === 'angle') {
+      this._optionsAngle = {
+        acceleration: options.acceleration ?? 0,
+        angle: options.angle ?? 0,
+        minVelocity: options.minVelocity,
+        maxVelocity: options.maxVelocity,
+        velocity: options.velocity ?? 0
+      };
+    }
   }
 
   protected abstract drawInternal(normalizer: number): void;
@@ -30,16 +40,23 @@ export abstract class Particle {
   public draw(): void {
     const timeDelta = Date.now() - this._lastDrawTime;
     const normalizer = this.getNormalizer(timeDelta);
-    if (typeof this._gravity === 'number') {
-      this._velocityY += normalizer * this._gravity;
-    } else {
-      this._velocityX += normalizer * this._gravity.x;
-      this._velocityY += normalizer * this._gravity.y;
-    }
-    this._x += this._velocityX;
-    this._y += this._velocityY;
+    this.move(normalizer);
+
     this.drawInternal(normalizer);
     this._lastDrawTime = Date.now();
+  }
+
+  private move(normalizer: number): void {
+    if (this._optionsXY) {
+      if (typeof this._optionsXY.gravity === 'number') {
+        this._optionsXY.velocityY += normalizer * this._optionsXY.gravity;
+      } else {
+        this._optionsXY.velocityX += normalizer * this._optionsXY.gravity.x;
+        this._optionsXY.velocityY += normalizer * this._optionsXY.gravity.y;
+      }
+      this._x += this._optionsXY.velocityX;
+      this._y += this._optionsXY.velocityY;
+    }
   }
 
   public get tooOld(): boolean {
