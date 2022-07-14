@@ -14,6 +14,7 @@ This small package provides some simple particle animations in TypeScript.
 
 <p align="center">
   <img src="readme/example.gif" height="250">
+  <img src="readme/example2.gif" height="250">
 </p>
 
 ## Features 🔥
