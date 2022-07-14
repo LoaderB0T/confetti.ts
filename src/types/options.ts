@@ -1,1 +1,9 @@
-export type ConfettiOptions = {};
+import { XY } from './xy.js';
+
+export type ParticleOptions = {
+  x: number;
+  y: number;
+  velocityX?: number;
+  velocityY?: number;
+  gravity?: number | XY;
+};

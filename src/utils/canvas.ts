@@ -23,4 +23,12 @@ export class Canvas {
   public static get ctx(): CanvasRenderingContext2D {
     return this._ctx!;
   }
+
+  public static get width(): number {
+    return this._canvas!.width;
+  }
+
+  public static get height(): number {
+    return this._canvas!.height;
+  }
 }

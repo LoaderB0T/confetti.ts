@@ -30,7 +30,7 @@
     "test": "jest",
     "prebuild": "yarn rimraf lib",
     "build": "yarn build-esm && yarn build-cjs",
-    "build-test": "yarn build-esm --sourceMap false && yarn cpy ./test/index.html ./lib/esm",
+    "build-test": "yarn build-esm --sourceMap false && yarn cpy --flat ./test/index.html ./lib/esm",
     "build-base": "tsc -p .",
     "build-esm": "yarn build-base --outDir lib/esm",
     "build-cjs": "yarn build-base --outDir lib/cjs --module commonjs && yarn fix-cjs",

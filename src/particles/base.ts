@@ -1,24 +1,43 @@
+import { ParticleOptions } from '../types/options.js';
+import { XY } from '../types/xy.js';
+
 export abstract class Particle {
   protected _x: number;
   protected _y: number;
+  protected _lastDrawTime: number;
+  protected _spawnTime: number;
   protected _velocityX: number;
   protected _velocityY: number;
-  protected _accelerationX: number;
-  protected _accelerationY: number;
+  protected _gravity: number | XY;
 
-  constructor(x: number, y: number, velocityX: number, velocityY: number, accelerationX: number, accelerationY: number) {
-    this._x = x;
-    this._y = y;
-    this._velocityX = velocityX;
-    this._velocityY = velocityY;
-    this._accelerationX = accelerationX;
-    this._accelerationY = accelerationY;
+  constructor(options: ParticleOptions) {
+    this._x = options.x;
+    this._y = options.y;
+    this._spawnTime = Date.now();
+    this._lastDrawTime = Date.now();
+    this._velocityX = options.velocityX ?? 0;
+    this._velocityY = options.velocityY ?? 0;
+    this._gravity = options.gravity ?? 0.05;
   }
 
-  protected abstract drawInternal(): void;
+  protected abstract drawInternal(timeDelta: number): void;
 
   // @internal
   public draw(): void {
-    this.drawInternal();
+    if (typeof this._gravity === 'number') {
+      this._velocityY += this._gravity;
+    } else {
+      this._velocityX += this._gravity.x;
+      this._velocityY += this._gravity.y;
+    }
+    this._x += this._velocityX;
+    this._y += this._velocityY;
+    const timeDelta = Date.now() - this._lastDrawTime;
+    this.drawInternal(timeDelta);
+    this._lastDrawTime = Date.now();
+  }
+
+  public get tooOld(): boolean {
+    return Date.now() - this._spawnTime > 5000;
   }
 }

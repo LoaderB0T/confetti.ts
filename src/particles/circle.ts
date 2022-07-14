@@ -1,19 +1,24 @@
 import { Canvas } from '../utils/canvas.js';
 import { Draw } from '../utils/draw.js';
 import { Particle } from './base.js';
+import { CircleOptions } from './circle-options.js';
 
 export class CircleParticle extends Particle {
   private readonly _radius: number;
   private readonly _color: string;
+  private readonly _borderColor?: string;
+  private readonly _borderWidth: number;
 
-  constructor(x: number, y: number, radius: number, color: string) {
-    super(x, y, 0, 0, 0, 0);
-    this._radius = radius;
-    this._color = color;
+  constructor(options: CircleOptions) {
+    super(options);
+    this._radius = options.radius;
+    this._color = options.color;
+    this._borderColor = options.borderColor;
+    this._borderWidth = options.borderWidth ?? 2;
   }
 
-  public static draw(x: number, y: number, radius: number, color: string) {
-    const particle = new CircleParticle(x, y, radius, color);
+  public static draw(options: CircleOptions) {
+    const particle = new CircleParticle(options);
     Draw.addParticle(particle);
   }
 
@@ -22,8 +27,10 @@ export class CircleParticle extends Particle {
     Canvas.ctx.ellipse(this._x, this._y, this._radius, this._radius, 0, 0, 2 * Math.PI);
     Canvas.ctx.fillStyle = this._color;
     Canvas.ctx.fill();
-    Canvas.ctx.lineWidth = 2;
-    Canvas.ctx.strokeStyle = this._color;
-    Canvas.ctx.stroke();
+    if (this._borderColor) {
+      Canvas.ctx.lineWidth = this._borderWidth;
+      Canvas.ctx.strokeStyle = this._borderColor;
+      Canvas.ctx.stroke();
+    }
   }
 }
