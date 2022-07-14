@@ -10,11 +10,11 @@ Canvas Confetti in TypeScript!
 
 This small package provides some simple particle animations in TypeScript.
 
-<!-- ## Example 🧮
+## Example 🧮
 
 <p align="center">
-  <img src="readme/example.gif" height="350">
-</p> -->
+  <img src="readme/example.gif" height="250">
+</p>
 
 ## Features 🔥
 
