@@ -27,6 +27,8 @@ This small package provides some simple particle animations in TypeScript.
 
 ✅ Framework independent
 
+✅ Strongly typed (when using TypeScript)
+
 ✅ ESM & CJS exports
 
 ✅ Lightweight: Zero dependencies
