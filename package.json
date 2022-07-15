@@ -1,6 +1,6 @@
 {
   "name": "confetti.ts",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Canvas Confetti in TypeScript",
   "author": {
     "name": "Janik Schumacher (LoaderB0T)",
@@ -29,7 +29,8 @@
     "lint": "yarn eslint ./src/**",
     "prebuild": "yarn rimraf lib",
     "build": "yarn build-esm && yarn build-cjs",
-    "build-test": "yarn build-esm --sourceMap false && yarn cpy --flat ./test/index.html ./lib/esm",
+    "build-test": "yarn build-esm --sourceMap false && yarn cpy --flat ./test/index.html ./lib/esm && yarn build-esm --sourceMap false --watch",
+    "start-test": "yarn http-server ./lib/esm",
     "build-base": "tsc -p .",
     "build-esm": "yarn build-base --outDir lib/esm",
     "build-cjs": "yarn build-base --outDir lib/cjs --module commonjs && yarn fix-cjs",
