@@ -82,8 +82,8 @@ export abstract class Particle {
 
       const angle = degreeToRadix(this._optionsAngle.angle);
 
-      const deltaX = Math.cos(angle) * this._optionsAngle.velocity;
-      const deltaY = Math.sin(angle) * this._optionsAngle.velocity;
+      const deltaX = Math.cos(angle) * this._optionsAngle.velocity * normalizer;
+      const deltaY = Math.sin(angle) * this._optionsAngle.velocity * normalizer;
       this._x += deltaX;
       this._y += deltaY;
     }
