@@ -1,6 +1,6 @@
 {
   "name": "confetti.ts",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Canvas Confetti in TypeScript",
   "author": {
     "name": "Janik Schumacher (LoaderB0T)",
