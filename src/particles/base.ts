@@ -69,8 +69,8 @@ export abstract class Particle {
         this._optionsXY.velocityX += normalizer * this._optionsXY.gravity.x;
         this._optionsXY.velocityY += normalizer * this._optionsXY.gravity.y;
       }
-      this._x += this._optionsXY.velocityX;
-      this._y += this._optionsXY.velocityY;
+      this._x += normalizer * this._optionsXY.velocityX;
+      this._y += normalizer * this._optionsXY.velocityY;
     } else if (this._optionsAngle) {
       this._optionsAngle.velocity += normalizer * this._optionsAngle.acceleration;
       if (this._optionsAngle.minVelocity !== undefined && this._optionsAngle.velocity < this._optionsAngle.minVelocity) {
