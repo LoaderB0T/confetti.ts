@@ -1,17 +1,17 @@
 import { CircleParticle } from './particles/circle.js';
 import { RectParticle } from './particles/rect.js';
 
-// CircleParticle.draw({
-//   x: 300,
-//   y: 300,
-//   radius: 10,
-//   color: 'red',
-//   movementAngle: {
-//     angle: 90,
-//     velocity: -5,
-//     acceleration: 0.1
-//   }
-// });
+CircleParticle.draw({
+  x: 300,
+  y: 300,
+  radius: 10,
+  color: 'red',
+  movementAngle: {
+    angle: 90,
+    velocity: -5,
+    acceleration: 0.1
+  }
+});
 
 // for (let i = 0; i < 5; i++) {
 //   CircleParticle.draw({
