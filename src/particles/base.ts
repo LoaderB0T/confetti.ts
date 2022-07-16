@@ -108,6 +108,20 @@ export abstract class Particle {
     this._state.rotation.velocity.y += normalizer * this._state.rotation.acceleration.y;
     this._state.rotation.velocity.z += normalizer * this._state.rotation.acceleration.z;
 
+    this.findAndApplyRotationLimits();
+
+    this._state.rotation.value.x +=
+      normalizer * this._state.rotation.velocity.x * (this._state.rotation.switchDirection ? -1 : 1);
+    this._state.rotation.value.y +=
+      normalizer * this._state.rotation.velocity.y * (this._state.rotation.switchDirection ? -1 : 1);
+    this._state.rotation.value.z +=
+      normalizer * this._state.rotation.velocity.z * (this._state.rotation.switchDirection ? -1 : 1);
+    this._state.rotation.value.x = bounds(this._state.rotation.value.x, 0, 360);
+    this._state.rotation.value.y = bounds(this._state.rotation.value.y, 0, 360);
+    this._state.rotation.value.z = bounds(this._state.rotation.value.z, 0, 360);
+  }
+
+  private findAndApplyRotationLimits() {
     const minX =
       typeof this._state.rotation.velocity.min === 'number'
         ? this._state.rotation.velocity.min
@@ -133,6 +147,10 @@ export abstract class Particle {
         ? this._state.rotation.velocity.max
         : this._state.rotation.velocity.max?.z;
 
+    this.applyRotationLimits(minX, minY, minZ, maxX, maxY, maxZ);
+  }
+
+  private applyRotationLimits(minX?: number, minY?: number, minZ?: number, maxX?: number, maxY?: number, maxZ?: number) {
     if (minX !== undefined && this._state.rotation.velocity.x < minX) {
       this._state.rotation.velocity.x = minX;
     }
@@ -151,16 +169,6 @@ export abstract class Particle {
     if (maxZ !== undefined && this._state.rotation.velocity.z > maxZ) {
       this._state.rotation.velocity.z = maxZ;
     }
-
-    this._state.rotation.value.x +=
-      normalizer * this._state.rotation.velocity.x * (this._state.rotation.switchDirection ? -1 : 1);
-    this._state.rotation.value.y +=
-      normalizer * this._state.rotation.velocity.y * (this._state.rotation.switchDirection ? -1 : 1);
-    this._state.rotation.value.z +=
-      normalizer * this._state.rotation.velocity.z * (this._state.rotation.switchDirection ? -1 : 1);
-    this._state.rotation.value.x = bounds(this._state.rotation.value.x, 0, 360);
-    this._state.rotation.value.y = bounds(this._state.rotation.value.y, 0, 360);
-    this._state.rotation.value.z = bounds(this._state.rotation.value.z, 0, 360);
   }
 
   public get tooOld(): boolean {
