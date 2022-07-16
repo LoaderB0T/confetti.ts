@@ -26,10 +26,10 @@ export class CircleParticle extends Particle {
   protected drawInternal(): void {
     Canvas.ctx.beginPath();
     Canvas.ctx.ellipse(
-      this._x,
-      this._y,
-      this._radius * degreeToPercentageAbs(this._rY),
-      this._radius * degreeToPercentageAbs(this._rX),
+      this._state.x,
+      this._state.y,
+      this._radius * degreeToPercentageAbs(this._state.rotation.value.y),
+      this._radius * degreeToPercentageAbs(this._state.rotation.value.x),
       0,
       0,
       2 * Math.PI

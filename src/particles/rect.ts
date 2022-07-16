@@ -28,15 +28,15 @@ export class RectParticle extends Particle {
   protected drawInternal(): void {
     Canvas.ctx.beginPath();
     Canvas.ctx.save();
-    Canvas.ctx.translate(this._x, this._y);
-    Canvas.ctx.rotate((Math.PI / 180) * this._rZ);
+    Canvas.ctx.translate(this._state.x, this._state.y);
+    Canvas.ctx.rotate((Math.PI / 180) * this._state.rotation.value.z);
 
     Canvas.ctx.beginPath();
     Canvas.ctx.rect(
-      (-this._width * degreeToPercentageAbs(this._rY)) / 2,
-      (-this._height * degreeToPercentageAbs(this._rX)) / 2,
-      this._width * degreeToPercentageAbs(this._rY),
-      this._height * degreeToPercentageAbs(this._rX)
+      (-this._width * degreeToPercentageAbs(this._state.rotation.value.y)) / 2,
+      (-this._height * degreeToPercentageAbs(this._state.rotation.value.x)) / 2,
+      this._width * degreeToPercentageAbs(this._state.rotation.value.y),
+      this._height * degreeToPercentageAbs(this._state.rotation.value.x)
     );
     Canvas.ctx.fillStyle = this._color;
     Canvas.ctx.fill();
