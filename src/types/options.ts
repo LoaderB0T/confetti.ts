@@ -1,4 +1,4 @@
-import { Velocity } from './velocity.js';
+import { DimensionWithLimits } from './dimension-with-limits.js';
 import { X } from './x.js';
 import { XY } from './xy.js';
 import { XYZ } from './xyz.js';
@@ -38,7 +38,7 @@ export type ParticleRotationOptions = {
   /**
    * Rotation velocity. Accepts negative values.
    */
-  velocity?: Partial<Velocity<XYZ>>;
+  velocity?: Partial<DimensionWithLimits<XYZ>>;
   /**
    * Rotation acceleration. Accepts negative values.
    */
@@ -53,7 +53,7 @@ export type ParticleXYOptions = {
   /**
    * Initial velocity
    */
-  velocity?: Partial<Velocity<XY>>;
+  velocity?: Partial<DimensionWithLimits<XY>>;
   /**
    * Gravity. Accepts values for X and Y axis & negative values.
    */
@@ -68,7 +68,7 @@ export type ParticleAngleOptions = {
   /**
    * Initial velocity. Accepts negative values.
    */
-  velocity: Partial<Velocity<X>>;
+  velocity: Partial<DimensionWithLimits<X>>;
   /**
    * Velocity acceleration. Accepts negative values.
    */

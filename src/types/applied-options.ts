@@ -1,4 +1,4 @@
-import { Velocity } from './velocity.js';
+import { DimensionWithLimits } from './dimension-with-limits.js';
 import { X } from './x.js';
 import { XY } from './xy.js';
 import { XYZ } from './xyz.js';
@@ -14,18 +14,18 @@ export type AppliedParticleOptions = {
 
 export type AppliedParticleRotationOptions = {
   value: XYZ;
-  velocity: Velocity<XYZ>;
+  velocity: DimensionWithLimits<XYZ>;
   acceleration: XYZ;
   switchDirection: boolean;
 };
 
 export type AppliedParticleXYOptions = {
-  velocity: Velocity<XY>;
+  velocity: DimensionWithLimits<XY>;
   acceleration: Partial<XY>;
 };
 
 export type AppliedParticleAngleOptions = {
   angle: number;
-  velocity: Velocity<X>;
+  velocity: DimensionWithLimits<X>;
   acceleration: number;
 };

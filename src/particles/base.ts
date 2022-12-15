@@ -6,8 +6,7 @@ import {
 } from '../types/applied-options.js';
 import { Dimensions } from '../types/dimensions.js';
 import { ParticleOptions } from '../types/options.js';
-import { Velocity } from '../types/velocity.js';
-import { X } from '../types/x.js';
+import { DimensionWithLimits } from '../types/dimension-with-limits.js';
 import { XYZ } from '../types/xyz.js';
 import { bounds } from '../utils/bounds.js';
 import { degreeToRadix } from '../utils/rotation-utils.js';
@@ -140,7 +139,7 @@ export abstract class Particle {
   }
 
   private findAndApplySingularLimit<D extends Dimensions>(
-    velocityObj: Velocity<D>,
+    velocityObj: DimensionWithLimits<D>,
     minOrMax: 'min' | 'max',
     coord: 'x' | 'y' | 'z'
   ): void {
@@ -155,7 +154,7 @@ export abstract class Particle {
     }
   }
 
-  private findAndApplyVelocityLimits<D extends Dimensions>(velocityObj: Velocity<D>) {
+  private findAndApplyVelocityLimits<D extends Dimensions>(velocityObj: DimensionWithLimits<D>) {
     this.findAndApplySingularLimit(velocityObj, 'min', 'x');
     this.findAndApplySingularLimit(velocityObj, 'min', 'y');
     this.findAndApplySingularLimit(velocityObj, 'min', 'z');
@@ -169,7 +168,7 @@ export abstract class Particle {
     this._state.rotation.velocity.y += normalizer * this._state.rotation.acceleration.y;
     this._state.rotation.velocity.z += normalizer * this._state.rotation.acceleration.z;
 
-    this.findAndApplyRotationLimits();
+    this.findAndApplyVelocityLimits(this._state.rotation.velocity);
 
     this._state.rotation.value.x +=
       normalizer * this._state.rotation.velocity.x * (this._state.rotation.switchDirection ? -1 : 1);
@@ -180,56 +179,6 @@ export abstract class Particle {
     this._state.rotation.value.x = bounds(this._state.rotation.value.x, 0, 360);
     this._state.rotation.value.y = bounds(this._state.rotation.value.y, 0, 360);
     this._state.rotation.value.z = bounds(this._state.rotation.value.z, 0, 360);
-  }
-
-  private findAndApplyRotationLimits() {
-    const minX =
-      typeof this._state.rotation.velocity.min === 'number'
-        ? this._state.rotation.velocity.min
-        : this._state.rotation.velocity.min?.x;
-    const minY =
-      typeof this._state.rotation.velocity.min === 'number'
-        ? this._state.rotation.velocity.min
-        : this._state.rotation.velocity.min?.y;
-    const minZ =
-      typeof this._state.rotation.velocity.min === 'number'
-        ? this._state.rotation.velocity.min
-        : this._state.rotation.velocity.min?.z;
-    const maxX =
-      typeof this._state.rotation.velocity.max === 'number'
-        ? this._state.rotation.velocity.max
-        : this._state.rotation.velocity.max?.x;
-    const maxY =
-      typeof this._state.rotation.velocity.max === 'number'
-        ? this._state.rotation.velocity.max
-        : this._state.rotation.velocity.max?.y;
-    const maxZ =
-      typeof this._state.rotation.velocity.max === 'number'
-        ? this._state.rotation.velocity.max
-        : this._state.rotation.velocity.max?.z;
-
-    this.applyRotationLimits(minX, minY, minZ, maxX, maxY, maxZ);
-  }
-
-  private applyRotationLimits(minX?: number, minY?: number, minZ?: number, maxX?: number, maxY?: number, maxZ?: number) {
-    if (minX !== undefined && this._state.rotation.velocity.x < minX) {
-      this._state.rotation.velocity.x = minX;
-    }
-    if (minY !== undefined && this._state.rotation.velocity.y < minY) {
-      this._state.rotation.velocity.y = minY;
-    }
-    if (minZ !== undefined && this._state.rotation.velocity.z < minZ) {
-      this._state.rotation.velocity.z = minZ;
-    }
-    if (maxX !== undefined && this._state.rotation.velocity.x > maxX) {
-      this._state.rotation.velocity.x = maxX;
-    }
-    if (maxY !== undefined && this._state.rotation.velocity.y > maxY) {
-      this._state.rotation.velocity.y = maxY;
-    }
-    if (maxZ !== undefined && this._state.rotation.velocity.z > maxZ) {
-      this._state.rotation.velocity.z = maxZ;
-    }
   }
 
   public get tooOld(): boolean {
