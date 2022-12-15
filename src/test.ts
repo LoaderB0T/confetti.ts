@@ -8,7 +8,9 @@ CircleParticle.draw({
   color: 'red',
   movementAngle: {
     angle: 90,
-    velocity: -5,
+    velocity: {
+      x: -5
+    },
     acceleration: 0.1
   }
 });
@@ -38,10 +40,17 @@ CircleParticle.draw({
 //   width: 20,
 //   height: 10,
 //   color: 'green',
-//   movenentXY: {
-//     gravity: 0.1,
-//     velocityX: Math.random() - 0.5,
-//     velocityY: -(Math.random() * 2 + 5)
+//   movementXY: {
+//     velocity: {
+//       x: 2,
+//       y: -4,
+//       max: {
+//         y: 1
+//       }
+//     },
+//     acceleration: {
+//       y: 0.1
+//     }
 //   },
 //   rotation: {
 //     velocity: {
@@ -60,9 +69,11 @@ for (let i = 0; i < 15; i++) {
     color: 'blue',
     movementAngle: {
       angle: Math.random() * 360,
-      velocity: 2,
-      acceleration: -0.01,
-      minVelocity: 0
+      velocity: {
+        x: 2,
+        min: 0
+      },
+      acceleration: -0.01
     },
     rotation: {
       switchDirection: Math.random() > 0.5,

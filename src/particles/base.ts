@@ -1,5 +1,14 @@
-import { AppliedParticleOptions } from '../types/applied-options.js';
+import {
+  AppliedParticleAngleOptions,
+  AppliedParticleOptions,
+  AppliedParticleRotationOptions,
+  AppliedParticleXYOptions
+} from '../types/applied-options.js';
+import { Dimensions } from '../types/dimensions.js';
 import { ParticleOptions } from '../types/options.js';
+import { Velocity } from '../types/velocity.js';
+import { X } from '../types/x.js';
+import { XYZ } from '../types/xyz.js';
 import { bounds } from '../utils/bounds.js';
 import { degreeToRadix } from '../utils/rotation-utils.js';
 
@@ -14,42 +23,63 @@ export abstract class Particle {
       x: options.x,
       y: options.y,
       lifeTime: options.lifeTime ?? 5000,
-      movementAngle: {
-        acceleration: options.movementAngle?.acceleration ?? 0,
-        angle: options.movementAngle?.angle ?? 0,
-        minVelocity: options.movementAngle?.minVelocity,
-        maxVelocity: options.movementAngle?.maxVelocity,
-        velocity: options.movementAngle?.velocity ?? 0
-      },
-      movementXY: {
-        gravity: options.movementXY?.gravity ?? 0,
-        velocityX: options.movementXY?.velocityX ?? 0,
-        velocityY: options.movementXY?.velocityY ?? 0
-      },
-      rotation: {
-        switchDirection: options.rotation?.switchDirection ?? false,
-        value: {
-          x: options.rotation?.value?.x ?? 0,
-          y: options.rotation?.value?.y ?? 0,
-          z: options.rotation?.value?.z ?? 0
-        },
-        velocity: {
-          x: options.rotation?.velocity?.x ?? 0,
-          y: options.rotation?.velocity?.y ?? 0,
-          z: options.rotation?.velocity?.z ?? 0,
-          min: options.rotation?.velocity?.min,
-          max: options.rotation?.velocity?.max
-        },
-        acceleration: {
-          x: options.rotation?.acceleration?.x ?? 0,
-          y: options.rotation?.acceleration?.y ?? 0,
-          z: options.rotation?.acceleration?.z ?? 0
-        }
-      }
+      movementAngle: this.getMovementAngleOptions(options),
+      movementXY: this.getMovementXyOptions(options),
+      rotation: this.getRotationOptions(options)
     };
 
     this._spawnTime = Date.now();
     this._lastDrawTime = Date.now();
+  }
+
+  private getRotationOptions(options: ParticleOptions): AppliedParticleRotationOptions {
+    return {
+      switchDirection: options.rotation?.switchDirection ?? false,
+      value: {
+        x: options.rotation?.value?.x ?? 0,
+        y: options.rotation?.value?.y ?? 0,
+        z: options.rotation?.value?.z ?? 0
+      },
+      velocity: {
+        x: options.rotation?.velocity?.x ?? 0,
+        y: options.rotation?.velocity?.y ?? 0,
+        z: options.rotation?.velocity?.z ?? 0,
+        min: options.rotation?.velocity?.min,
+        max: options.rotation?.velocity?.max
+      },
+      acceleration: {
+        x: options.rotation?.acceleration?.x ?? 0,
+        y: options.rotation?.acceleration?.y ?? 0,
+        z: options.rotation?.acceleration?.z ?? 0
+      }
+    };
+  }
+
+  private getMovementXyOptions(options: ParticleOptions): AppliedParticleXYOptions {
+    return {
+      acceleration: {
+        x: options.movementXY?.acceleration?.x ?? 0,
+        y: options.movementXY?.acceleration?.y ?? 0
+      },
+      velocity: {
+        x: options.movementXY?.velocity?.x ?? 0,
+        y: options.movementXY?.velocity?.y ?? 0,
+        min: options.movementXY?.velocity?.min,
+        max: options.movementXY?.velocity?.max
+      }
+    };
+  }
+
+  private getMovementAngleOptions(options: ParticleOptions): AppliedParticleAngleOptions {
+    return {
+      acceleration: options.movementAngle?.acceleration ?? 0,
+      angle: options.movementAngle?.angle ?? 0,
+      velocity: {
+        x: options.movementAngle?.velocity?.x ?? 0,
+        min: options.movementAngle?.velocity?.min,
+        max: options.movementAngle?.velocity?.max
+      }
+    };
   }
 
   protected abstract drawInternal(normalizer: number): void;
@@ -71,36 +101,67 @@ export abstract class Particle {
 
   private move(normalizer: number): void {
     // XY
-    if (typeof this._state.movementXY.gravity === 'number') {
-      this._state.movementXY.velocityY += normalizer * this._state.movementXY.gravity;
-    } else {
-      this._state.movementXY.velocityX += normalizer * this._state.movementXY.gravity.x;
-      this._state.movementXY.velocityY += normalizer * this._state.movementXY.gravity.y;
+    if (typeof this._state.movementXY.acceleration.x === 'number') {
+      this._state.movementXY.velocity.x += normalizer * this._state.movementXY.acceleration.x;
     }
-    this._state.x += normalizer * this._state.movementXY.velocityX;
-    this._state.y += normalizer * this._state.movementXY.velocityY;
+    if (typeof this._state.movementXY.acceleration.y === 'number') {
+      this._state.movementXY.velocity.y += normalizer * this._state.movementXY.acceleration.y;
+    }
+
+    this.findAndApplyVelocityLimits(this._state.movementXY.velocity);
+
+    this._state.x += normalizer * this._state.movementXY.velocity.x;
+    this._state.y += normalizer * this._state.movementXY.velocity.y;
 
     // Angle
-    this._state.movementAngle.velocity += normalizer * this._state.movementAngle.acceleration;
-    if (
-      this._state.movementAngle.minVelocity !== undefined &&
-      this._state.movementAngle.velocity < this._state.movementAngle.minVelocity
-    ) {
-      this._state.movementAngle.velocity = this._state.movementAngle.minVelocity;
-    }
-    if (
-      this._state.movementAngle.maxVelocity !== undefined &&
-      this._state.movementAngle.velocity > this._state.movementAngle.maxVelocity
-    ) {
-      this._state.movementAngle.velocity = this._state.movementAngle.maxVelocity;
-    }
+    this._state.movementAngle.velocity.x += normalizer * this._state.movementAngle.acceleration;
+    this.findAndApplyVelocityLimits(this._state.movementAngle.velocity);
 
     const angle = degreeToRadix(this._state.movementAngle.angle);
 
-    const deltaX = Math.cos(angle) * this._state.movementAngle.velocity * normalizer;
-    const deltaY = Math.sin(angle) * this._state.movementAngle.velocity * normalizer;
+    const deltaX = Math.cos(angle) * this._state.movementAngle.velocity.x * normalizer;
+    const deltaY = Math.sin(angle) * this._state.movementAngle.velocity.x * normalizer;
     this._state.x += deltaX;
     this._state.y += deltaY;
+  }
+
+  private findSingularLimit<D extends Dimensions>(
+    limit: Partial<D> | number | undefined,
+    coord: 'x' | 'y' | 'z'
+  ): number | undefined {
+    if (limit === undefined) {
+      return undefined;
+    }
+    if (typeof limit === 'number') {
+      return limit;
+    }
+    const xyzLimit = limit as unknown as XYZ;
+    return typeof xyzLimit[coord] === 'number' ? xyzLimit[coord] : undefined;
+  }
+
+  private findAndApplySingularLimit<D extends Dimensions>(
+    velocityObj: Velocity<D>,
+    minOrMax: 'min' | 'max',
+    coord: 'x' | 'y' | 'z'
+  ): void {
+    const limit = velocityObj[minOrMax];
+    const appliedLimit = this.findSingularLimit(limit, coord);
+    const comparsion = minOrMax === 'min' ? (a: number, b: number) => a < b : (a: number, b: number) => a > b;
+    if (appliedLimit !== undefined) {
+      const velocityVal = velocityObj as XYZ;
+      if (velocityVal[coord] !== undefined && comparsion(velocityVal[coord], appliedLimit)) {
+        velocityVal[coord] = appliedLimit;
+      }
+    }
+  }
+
+  private findAndApplyVelocityLimits<D extends Dimensions>(velocityObj: Velocity<D>) {
+    this.findAndApplySingularLimit(velocityObj, 'min', 'x');
+    this.findAndApplySingularLimit(velocityObj, 'min', 'y');
+    this.findAndApplySingularLimit(velocityObj, 'min', 'z');
+    this.findAndApplySingularLimit(velocityObj, 'max', 'x');
+    this.findAndApplySingularLimit(velocityObj, 'max', 'y');
+    this.findAndApplySingularLimit(velocityObj, 'max', 'z');
   }
 
   private rotate(normalizer: number): void {

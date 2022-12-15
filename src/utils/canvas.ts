@@ -4,6 +4,7 @@ export class Canvas {
   public static init() {
     if (!this._canvas) {
       this._canvas = document.createElement('canvas');
+      this._canvas.classList.add('confetti-canvas');
       this._canvas.style.position = 'fixed';
       this._canvas.style.top = '0';
       this._canvas.style.left = '0';

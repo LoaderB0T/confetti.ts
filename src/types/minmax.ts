@@ -1,6 +1,6 @@
-import { XYZ } from './xyz.js';
+import { Dimensions } from './dimensions.js';
 
-export type MinMax = {
-  min: number | XYZ;
-  max: number | XYZ;
+export type MinMax<Dim extends Dimensions> = {
+  min: number | Partial<Dim>;
+  max: number | Partial<Dim>;
 };
