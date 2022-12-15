@@ -3,6 +3,83 @@ import { RectParticle } from './particles/rect.js';
 
 CircleParticle.draw({
   position: {
+    x: 50,
+    y: 300
+  },
+  radius: 20,
+  color: 'red'
+});
+
+// Moving example
+CircleParticle.draw({
+  position: {
+    x: 100,
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementXY: {
+    velocity: {
+      y: 0.5 // Slowly moved down
+    }
+  }
+});
+
+// Accelerating example
+CircleParticle.draw({
+  position: {
+    x: 150,
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementXY: {
+    velocity: {
+      y: -7, // Moved upwards initially
+      x: 1 // Slightly moves right all the time
+    },
+    acceleration: {
+      y: 0.1 // But then "gravity" pulls it down
+    }
+  }
+});
+
+// Example with angled movement
+CircleParticle.draw({
+  position: {
+    x: 200,
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementAngle: {
+    angle: 35,
+    velocity: {
+      x: 1
+    },
+    acceleration: 0.05
+  }
+});
+
+// Example with rotation
+RectParticle.draw({
+  position: {
+    x: 250,
+    y: 300
+  },
+  width: 20,
+  height: 10,
+  color: 'magenta',
+  rotation: {
+    velocity: {
+      x: 3,
+      z: 4
+    }
+  }
+});
+
+CircleParticle.draw({
+  position: {
     x: 200,
     y: 300,
     max: 300

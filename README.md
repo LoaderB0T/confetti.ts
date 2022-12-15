@@ -24,7 +24,7 @@ This small package provides some simple particle animations in TypeScript.
 
 ✅ Control the size, color, rotation, velocity and acceleration of the particles
 
-✅ Extendable particle shapes
+✅ Extendable particle shapes (Add your own particles!)
 
 ✅ Framework independent
 
@@ -41,24 +41,90 @@ This small package provides some simple particle animations in TypeScript.
 ## Getting Started 🚀
 
 ```typescript
-import { CircleParticle } from './particles/circle.js';
+// Minimal example
+import { CircleParticle } from 'cofetti.ts';
 
-CircleParticle.draw({ x: 300, y: 300, radius: 10, color: 'red', movement: 'angle', angle: 90, velocity: -5, acceleration: 0.1 });
+CircleParticle.draw({
+  position: {
+    x: 50,
+    y: 300
+  },
+  radius: 20,
+  color: 'red'
+});
 
-for (let i = 0; i < 5; i++) {
-  CircleParticle.draw({
+// Moving example
+CircleParticle.draw({
+  position: {
+    x: 100,
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementXY: {
+    velocity: {
+      y: 0.5 // Slowly moved down
+    }
+  }
+});
+
+// Accelerating example
+CircleParticle.draw({
+  position: {
+    x: 150,
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementXY: {
+    velocity: {
+      y: -7, // Moved upwards initially
+      x: 1 // Slightly moves right all the time
+    },
+    acceleration: {
+      y: 0.1 // But then "gravity" pulls it down
+    }
+  }
+});
+
+// Example with angled movement
+CircleParticle.draw({
+  position: {
     x: 200,
-    y: 300,
-    radius: 10,
-    color: 'blue',
-    movement: 'xy',
-    velocityX: Math.random() - 0.5,
-    velocityY: -(Math.random() * 2 + 5),
-    rotationY: 4,
-    gravity: 0.1
-  });
-}
+    y: 300
+  },
+  radius: 20,
+  color: 'red',
+  movementAngle: {
+    angle: 35,
+    velocity: {
+      x: 1
+    },
+    acceleration: 0.05
+  }
+});
+
+// Example with rotation
+RectParticle.draw({
+  position: {
+    x: 250,
+    y: 300
+  },
+  width: 20,
+  height: 10,
+  color: 'magenta',
+  rotation: {
+    velocity: {
+      x: 3,
+      z: 4
+    }
+  }
+});
 ```
+
+## Playground 🎮
+
+--- TODO ---
 
 ## Contributing 🧑🏻‍💻
 
