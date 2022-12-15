@@ -5,15 +5,11 @@ import { XYZ } from './xyz.js';
 
 export type ParticleOptions = {
   /**
-   * Initial x position of particle
+   * Particle position options.
    */
-  x: number;
+  position: ParticlePositionOptions;
   /**
-   * Initial y position of particle
-   */
-  y: number;
-  /**
-   * Particle rotation options
+   * Particle rotation options.
    */
   rotation?: ParticleRotationOptions;
   /**
@@ -30,13 +26,15 @@ export type ParticleOptions = {
   movementAngle?: ParticleAngleOptions;
 };
 
+export type ParticlePositionOptions = DimensionWithLimits<XY>;
+
 export type ParticleRotationOptions = {
   /**
    * Initial rotation in degrees
    */
   value?: Partial<XYZ>;
   /**
-   * Rotation velocity. Accepts negative values.
+   * Rotation velocity & limits. Accepts negative values.
    */
   velocity?: Partial<DimensionWithLimits<XYZ>>;
   /**
@@ -51,11 +49,11 @@ export type ParticleRotationOptions = {
 
 export type ParticleXYOptions = {
   /**
-   * Initial velocity
+   * Initial velocity & limits. Accepts negative values.
    */
-  velocity?: Partial<DimensionWithLimits<XY>>;
+  velocity: Partial<DimensionWithLimits<XY>>;
   /**
-   * Gravity. Accepts values for X and Y axis & negative values.
+   * Gravity. Accepts negative values.
    */
   acceleration?: Partial<XY>;
 };
@@ -66,11 +64,11 @@ export type ParticleAngleOptions = {
    */
   angle: number;
   /**
-   * Initial velocity. Accepts negative values.
+   * Initial velocity & limits. Accepts negative values.
    */
   velocity: Partial<DimensionWithLimits<X>>;
   /**
-   * Velocity acceleration. Accepts negative values.
+   * Particle acceleration. Accepts negative values.
    */
   acceleration?: number;
 };

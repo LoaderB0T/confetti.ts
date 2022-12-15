@@ -28,7 +28,7 @@ export class RectParticle extends Particle {
   protected drawInternal(): void {
     Canvas.ctx.beginPath();
     Canvas.ctx.save();
-    Canvas.ctx.translate(this._state.x, this._state.y);
+    Canvas.ctx.translate(this._state.position.x, this._state.position.y);
     Canvas.ctx.rotate((Math.PI / 180) * this._state.rotation.value.z);
 
     Canvas.ctx.beginPath();

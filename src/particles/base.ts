@@ -19,8 +19,12 @@ export abstract class Particle {
 
   constructor(options: ParticleOptions) {
     this._state = {
-      x: options.x,
-      y: options.y,
+      position: {
+        x: options.position.x,
+        y: options.position.y,
+        min: options.position.min,
+        max: options.position.max
+      },
       lifeTime: options.lifeTime ?? 5000,
       movementAngle: this.getMovementAngleOptions(options),
       movementXY: this.getMovementXyOptions(options),
@@ -107,21 +111,23 @@ export abstract class Particle {
       this._state.movementXY.velocity.y += normalizer * this._state.movementXY.acceleration.y;
     }
 
-    this.findAndApplyVelocityLimits(this._state.movementXY.velocity);
+    this.findAndApplyDimensionalLimits(this._state.movementXY.velocity);
 
-    this._state.x += normalizer * this._state.movementXY.velocity.x;
-    this._state.y += normalizer * this._state.movementXY.velocity.y;
+    this._state.position.x += normalizer * this._state.movementXY.velocity.x;
+    this._state.position.y += normalizer * this._state.movementXY.velocity.y;
 
     // Angle
     this._state.movementAngle.velocity.x += normalizer * this._state.movementAngle.acceleration;
-    this.findAndApplyVelocityLimits(this._state.movementAngle.velocity);
+    this.findAndApplyDimensionalLimits(this._state.movementAngle.velocity);
 
     const angle = degreeToRadix(this._state.movementAngle.angle);
 
     const deltaX = Math.cos(angle) * this._state.movementAngle.velocity.x * normalizer;
     const deltaY = Math.sin(angle) * this._state.movementAngle.velocity.x * normalizer;
-    this._state.x += deltaX;
-    this._state.y += deltaY;
+    this._state.position.x += deltaX;
+    this._state.position.y += deltaY;
+
+    this.findAndApplyDimensionalLimits(this._state.position);
   }
 
   private findSingularLimit<D extends Dimensions>(
@@ -154,7 +160,7 @@ export abstract class Particle {
     }
   }
 
-  private findAndApplyVelocityLimits<D extends Dimensions>(velocityObj: DimensionWithLimits<D>) {
+  protected findAndApplyDimensionalLimits<D extends Dimensions>(velocityObj: DimensionWithLimits<D>) {
     this.findAndApplySingularLimit(velocityObj, 'min', 'x');
     this.findAndApplySingularLimit(velocityObj, 'min', 'y');
     this.findAndApplySingularLimit(velocityObj, 'min', 'z');
@@ -168,7 +174,7 @@ export abstract class Particle {
     this._state.rotation.velocity.y += normalizer * this._state.rotation.acceleration.y;
     this._state.rotation.velocity.z += normalizer * this._state.rotation.acceleration.z;
 
-    this.findAndApplyVelocityLimits(this._state.rotation.velocity);
+    this.findAndApplyDimensionalLimits(this._state.rotation.velocity);
 
     this._state.rotation.value.x +=
       normalizer * this._state.rotation.velocity.x * (this._state.rotation.switchDirection ? -1 : 1);

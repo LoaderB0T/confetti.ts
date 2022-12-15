@@ -4,13 +4,14 @@ import { XY } from './xy.js';
 import { XYZ } from './xyz.js';
 
 export type AppliedParticleOptions = {
-  x: number;
-  y: number;
+  position: AppliedParticlePositionOptions;
   rotation: AppliedParticleRotationOptions;
   lifeTime: number;
   movementXY: AppliedParticleXYOptions;
   movementAngle: AppliedParticleAngleOptions;
 };
+
+export type AppliedParticlePositionOptions = DimensionWithLimits<XY>;
 
 export type AppliedParticleRotationOptions = {
   value: XYZ;

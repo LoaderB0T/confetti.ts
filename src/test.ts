@@ -2,9 +2,15 @@ import { CircleParticle } from './particles/circle.js';
 import { RectParticle } from './particles/rect.js';
 
 CircleParticle.draw({
-  x: 300,
-  y: 300,
-  radius: 10,
+  position: {
+    x: 200,
+    y: 300,
+    max: 300
+  },
+  radius: {
+    x: 15,
+    min: 1
+  },
   color: 'red',
   movementAngle: {
     angle: 90,
@@ -12,7 +18,12 @@ CircleParticle.draw({
       x: -5
     },
     acceleration: 0.1
-  }
+  },
+  growthVelocity: {
+    x: -0.01,
+    min: -0.2
+  },
+  growthAcceleration: -0.01
 });
 
 // for (let i = 0; i < 5; i++) {
@@ -62,8 +73,10 @@ CircleParticle.draw({
 
 for (let i = 0; i < 15; i++) {
   RectParticle.draw({
-    x: 400,
-    y: 400,
+    position: {
+      x: 400,
+      y: 400
+    },
     width: 15,
     height: 8,
     color: 'blue',
