@@ -1,5 +1,5 @@
 [![npm](https://img.shields.io/npm/v/confetti.ts?color=%2300d26a&style=for-the-badge)](https://www.npmjs.com/package/confetti.ts)
-[![CI](https://img.shields.io/github/workflow/status/LoaderB0T/confetti.ts/CI/main?style=for-the-badge)](https://github.com/LoaderB0T/confetti.ts/actions/workflows/build.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/LoaderB0T/confetti.ts/build.yml?branch=main&style=for-the-badge)](https://github.com/LoaderB0T/confetti.ts/actions/workflows/build.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/LoaderB0T_confetti.ts?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/summary/new_code?id=LoaderB0T_confetti.ts)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/confetti.ts?color=%23FF006F&label=Bundle%20Size&style=for-the-badge)](https://bundlephobia.com/package/confetti.ts)
 
