@@ -63,7 +63,7 @@ CircleParticle.draw({
   color: 'red',
   movementXY: {
     velocity: {
-      y: 0.5 // Slowly moved down
+      y: 0.5 // Slowly moves down
     }
   }
 });
@@ -78,7 +78,7 @@ CircleParticle.draw({
   color: 'red',
   movementXY: {
     velocity: {
-      y: -7, // Moved upwards initially
+      y: -7, // Moves upwards initially
       x: 1 // Slightly moves right all the time
     },
     acceleration: {
