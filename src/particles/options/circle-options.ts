@@ -1,5 +1,5 @@
 import { DimensionWithLimits } from '../../types/dimension-with-limits.js';
-import { ParticleOptions } from '../../types/options';
+import { ParticleOptions } from '../../types/options.js';
 import { X } from '../../types/x.js';
 
 export type CircleOptions = ParticleOptions & {

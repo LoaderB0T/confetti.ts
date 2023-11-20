@@ -1,4 +1,4 @@
-import { ParticleOptions } from '../../types/options';
+import { ParticleOptions } from '../../types/options.js';
 
 export type RectOptions = ParticleOptions & {
   width: number;
