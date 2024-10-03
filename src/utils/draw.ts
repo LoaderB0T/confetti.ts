@@ -1,5 +1,5 @@
-import { Particle } from '../particles/base.js';
 import { Canvas } from './canvas.js';
+import { Particle } from '../particles/base.js';
 
 export class Draw {
   private static _initialized: boolean = false;

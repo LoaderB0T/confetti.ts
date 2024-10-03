@@ -1,9 +1,9 @@
+import { Particle } from './base.js';
 import { DimensionWithLimits } from '../types/dimension-with-limits.js';
 import { X } from '../types/x.js';
 import { Canvas } from '../utils/canvas.js';
 import { Draw } from '../utils/draw.js';
 import { degreeToPercentageAbs } from '../utils/rotation-utils.js';
-import { Particle } from './base.js';
 import { CircleOptions } from './options/circle-options.js';
 
 export class CircleParticle extends Particle {

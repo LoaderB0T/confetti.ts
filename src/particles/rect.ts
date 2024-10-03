@@ -1,7 +1,7 @@
+import { Particle } from './base.js';
 import { Canvas } from '../utils/canvas.js';
 import { Draw } from '../utils/draw.js';
 import { degreeToPercentageAbs } from '../utils/rotation-utils.js';
-import { Particle } from './base.js';
 import { RectOptions } from './options/rect-options.js';
 
 export class RectParticle extends Particle {

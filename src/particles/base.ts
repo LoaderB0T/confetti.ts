@@ -4,9 +4,9 @@ import {
   AppliedParticleRotationOptions,
   AppliedParticleXYOptions
 } from '../types/applied-options.js';
+import { DimensionWithLimits } from '../types/dimension-with-limits.js';
 import { Dimensions } from '../types/dimensions.js';
 import { ParticleOptions } from '../types/options.js';
-import { DimensionWithLimits } from '../types/dimension-with-limits.js';
 import { XYZ } from '../types/xyz.js';
 import { bounds } from '../utils/bounds.js';
 import { degreeToRadix } from '../utils/rotation-utils.js';
