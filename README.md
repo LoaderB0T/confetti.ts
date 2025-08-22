@@ -30,7 +30,7 @@ This small package provides some simple particle animations in TypeScript.
 
 ✅ Strongly typed (when using TypeScript)
 
-✅ ESM & CJS exports
+✅ Fully ESM
 
 ✅ Lightweight: Zero dependencies
 
@@ -42,7 +42,7 @@ This small package provides some simple particle animations in TypeScript.
 
 ```typescript
 // Minimal example
-import { CircleParticle } from 'cofetti.ts';
+import { CircleParticle } from 'confetti.ts';
 
 CircleParticle.draw({
   position: {

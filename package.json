@@ -17,24 +17,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "import": "./lib/index.js"
     }
   },
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
     "lint": "pnpm eslint ./src/**",
     "prebuild": "pnpm rimraf lib",
-    "build": "pnpm build-esm && pnpm build-cjs",
-    "build-test": "pnpm build-esm --sourceMap false && pnpm cpy --flat ./test/index.html ./lib/esm && pnpm build-esm --sourceMap false --watch",
-    "start-test": "pnpm http-server ./lib/esm",
-    "build-base": "tsc -p .",
-    "build-esm": "pnpm build-base --outDir lib/esm",
-    "build-cjs": "pnpm build-base --outDir lib/cjs --module commonjs && pnpm fix-cjs",
-    "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts"
+    "build-test": "pnpm build --sourceMap false && pnpm cpy --flat ./test/index.html ./lib && pnpm build --sourceMap false --watch",
+    "start-test": "pnpm http-server ./lib",
+    "build": "tsc -p ."
   },
   "license": "MIT",
   "private": false,
