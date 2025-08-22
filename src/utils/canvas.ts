@@ -1,3 +1,5 @@
+import { confettiSettings } from './settings.js';
+
 export class Canvas {
   private static _canvas?: HTMLCanvasElement;
   private static _ctx?: CanvasRenderingContext2D;
@@ -9,7 +11,7 @@ export class Canvas {
       this._canvas.style.top = '0';
       this._canvas.style.left = '0';
       this._canvas.style.pointerEvents = 'none';
-      this._canvas.style.zIndex = '100';
+      this._canvas.style.zIndex = `${confettiSettings.zIndex ?? 100}`;
       this._canvas.width = window.innerWidth;
       this._canvas.height = window.innerHeight;
       document.body.appendChild(this._canvas);

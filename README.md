@@ -120,6 +120,16 @@ RectParticle.draw({
     }
   }
 });
+
+
+// Adjust global settings
+
+import { setConfettiSettings } from 'confetti.ts';
+
+setConfettiSettings({
+  zIndex: 200
+});
+
 ```
 
 ## Playground 🎮
