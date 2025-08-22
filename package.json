@@ -1,6 +1,6 @@
 {
   "name": "confetti.ts",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Canvas Confetti in TypeScript",
   "author": {
     "name": "Janik Schumacher (LoaderB0T)",
@@ -34,20 +34,20 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@awdware/eslint-config-base": "^2.1.0",
+    "@awdware/eslint-config-base": "^2.1.1",
     "@awdware/eslint-config-nodejs": "^2.0.0",
     "@awdware/prettier-config": "^1.0.0",
-    "@types/node": "^20.9.2",
-    "cpy-cli": "^5.0.0",
-    "eslint": "^9.11.1",
-    "eslint-plugin-import": "2.31.0",
-    "eslint-plugin-unused-imports": "4.1.4",
+    "@types/node": "^24.3.0",
+    "cpy-cli": "^6.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-unused-imports": "4.2.0",
     "http-server": "^14.1.1",
     "legally": "^3.5.10",
-    "rimraf": "^5.0.5",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
-    "typescript-eslint": "8.8.0"
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "8.40.0"
   },
   "prettier": "@awdware/prettier-config",
   "keywords": [
